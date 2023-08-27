@@ -1,10 +1,9 @@
-import { intervals } from './data/db'
+import { enharmonics, intervals, notes } from './data/db'
 
 function calculateInterval(note1: number, note2: number): string {
-	const topNote = Math.max(note1, note2)
-	const bottomNote = Math.min(note1, note2)
+	if (note1 <= 0 || note2 <= 0) return 'INVALID NOTES'
 
-	let steps = Math.abs(topNote - bottomNote)
+	let steps = Math.abs(note1 - note2)
 
 	while (steps > 12) steps -= 12
 
@@ -13,7 +12,24 @@ function calculateInterval(note1: number, note2: number): string {
 	return interval
 }
 
-const note1 = 89
-const note2 = 79
+function getNoteMidi(label: string): number {
+	let note = notes.find(n => n.label === label)?.midi
+	if (!note) {
+		const enharmonicLabel = getEnharmonic(label)
+		note = notes.find(n => n.label === enharmonicLabel)?.midi
+	}
+	if (!note) return 0
+	return note
+}
+
+function getEnharmonic(flat: string): string {
+	const [noteLabel, noteNumber] = flat.split(/(?!b)/g)
+	const enharmonic = enharmonics.find(e => e.flat === noteLabel)?.sharp
+	if (!enharmonic) return 'INVALID NOTE'
+	return `${enharmonic}${noteNumber}`
+}
+
+const note1 = getNoteMidi('Ab3')
+const note2 = getNoteMidi('D4')
 
 console.log(calculateInterval(note1, note2))

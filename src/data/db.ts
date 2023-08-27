@@ -1,4 +1,4 @@
-import { Interval, Note } from '../models/models'
+import { Enharmonic, Interval, Note } from '../models/models'
 
 export const notes: Note[] = [
 	{ label: 'A0', midi: 21 },
@@ -89,6 +89,14 @@ export const notes: Note[] = [
 	{ label: 'A#7', midi: 106 },
 	{ label: 'B7', midi: 107 },
 	{ label: 'C8', midi: 108 }
+]
+
+export const enharmonics: Enharmonic[] = [
+	{ sharp: 'C#', flat: 'Db' },
+	{ sharp: 'D#', flat: 'Eb' },
+	{ sharp: 'F#', flat: 'Gb' },
+	{ sharp: 'G#', flat: 'Ab' },
+	{ sharp: 'A#', flat: 'Bb' }
 ]
 
 export const intervals: Interval[] = [
