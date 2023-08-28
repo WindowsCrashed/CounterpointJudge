@@ -1,58 +1,66 @@
-import { enharmonics, intervals, notes } from './data/db'
-import { Interval } from './models/models'
+import { getNoteMidi } from './getters'
+import { calculateHarmonicInterval, calculateMelodicInterval } from './intervals'
 
-function calculateInterval(note1: number, note2: number): Interval {
-	if (note1 <= 0 || note2 <= 0) return { label: 'INVALID INTERVAL', steps: -1 }
-	let steps = Math.abs(note1 - note2)
-	while (steps > 12) steps -= 12
-	const interval = intervals.find(i => i.steps === steps) ?? {
-		label: 'INVALID INTERVAL',
-		steps: -1
-	}
-	return interval
-}
+function analyseHarmonicIntervals(sequence: Array<string[]>) {
+	console.log('------- HARMONY ------')
 
-function getNoteMidi(label: string): number {
-	if (label.length > 3 || label.length <= 0) return 0
-	let note = notes.find(n => n.label === label)?.midi
-	if (!note) {
-		const enharmonicLabel = getEnharmonic(label)
-		note = notes.find(n => n.label === enharmonicLabel)?.midi
-	}
-	if (!note) return 0
-	return note
-}
-
-function getEnharmonic(flat: string): string {
-	if (flat.length > 3 || flat.length <= 0) return 'INVALID NOTE'
-	const [noteLabel, noteNumber] = flat.split(/(?!b)/g)
-	const enharmonic = enharmonics.find(e => e.flat === noteLabel)?.sharp
-	if (!enharmonic) return 'INVALID NOTE'
-	return `${enharmonic}${noteNumber}`
-}
-
-function analyseSequence(sequence: Array<string[]>) {
 	const intervalList = []
 	for (const notePair of sequence) {
-		const result = calculateInterval(getNoteMidi(notePair[0]), getNoteMidi(notePair[1]))
+		const result = calculateHarmonicInterval(getNoteMidi(notePair[0]), getNoteMidi(notePair[1]))
 		intervalList.push(result)
 	}
 
 	console.log(intervalList.map(i => i.label).join(' -> '))
 
-	for (let i = 0; i < intervalList.length; i++) {
-		if (i !== 0) {
-			if (intervalList[i].steps === intervalList[i - 1].steps) {
-				if (intervalList[i].steps === 7) {
-					console.log('PARALLEL FIFTHS')
-				} else if (intervalList[i].steps === 0) {
-					console.log('PARALLEL UNISON')
-				} else if (intervalList[i].steps === 12) {
-					console.log('PARALLEL OCTAVES')
-				}
+	for (let i = 1; i < intervalList.length; i++) {
+		if (intervalList[i].steps === intervalList[i - 1].steps) {
+			if (intervalList[i].steps === 7) {
+				console.log('PARALLEL FIFTHS')
+			} else if (intervalList[i].steps === 0) {
+				console.log('PARALLEL UNISON')
+			} else if (intervalList[i].steps === 12) {
+				console.log('PARALLEL OCTAVES')
 			}
 		}
 	}
+}
+
+function analyseMelodicIntervals(sequence: Array<string[]>) {
+	console.log('------- MELODY ------')
+
+	const lines: Array<string[]> = [[], []]
+
+	for (const pair of sequence) {
+		lines[0].push(pair[0])
+		lines[1].push(pair[1])
+	}
+
+	for (const line of lines) {
+		const intervalList = []
+		for (let i = 1; i < line.length; i++) {
+			const result = calculateMelodicInterval(getNoteMidi(line[i - 1]), getNoteMidi(line[i]))
+			intervalList.push(result)
+		}
+
+		console.log(intervalList.map(i => i.label).join(' -> '))
+
+		for (let i = 0; i < intervalList.length; i++) {
+			if (intervalList[i].steps === 13) {
+				console.log('INTERVAL BIGGER THAN OCTAVE')
+			} else if (intervalList[i].steps === 6) {
+				console.log('TRITONE')
+			} else if (intervalList[i].steps === 10 || intervalList[i].steps === 11) {
+				console.log('SEVENTH INTERVAL')
+			} else if (intervalList[i].steps === 9) {
+				console.log('MAJOR SIXTH INTERVAL')
+			}
+		}
+	}
+}
+
+function analyseSequence(sequence: Array<string[]>) {
+	analyseHarmonicIntervals(sequence)
+	analyseMelodicIntervals(sequence)
 }
 
 const testNotes = [
@@ -100,7 +108,37 @@ const testNotes4 = [
 	['G4', 'G4']
 ]
 
-analyseSequence(testNotes)
-analyseSequence(testNotes2)
-analyseSequence(testNotes3)
+const testNotesFux1 = [
+	['D4', 'A4'],
+	['F4', 'A4'],
+	['E4', 'G4'],
+	['D4', 'A4'],
+	['G4', 'B4'],
+	['F4', 'C5'],
+	['A4', 'C5'],
+	['G4', 'B4'],
+	['F4', 'D5'],
+	['E4', 'C#5'],
+	['D4', 'D5']
+]
+
+const testNotesFux2 = [
+	['G3', 'D4'],
+	['D4', 'F4'],
+	['A3', 'E4'],
+	['F3', 'D4'],
+	['E3', 'G4'],
+	['D3', 'F4'],
+	['F3', 'A4'],
+	['C4', 'G4'],
+	['D4', 'F4'],
+	['C#4', 'E4'],
+	['D4', 'D4']
+]
+
+// analyseSequence(testNotes)
+// analyseSequence(testNotes2)
+// analyseSequence(testNotes3)
 analyseSequence(testNotes4)
+analyseSequence(testNotesFux1)
+analyseSequence(testNotesFux2)
