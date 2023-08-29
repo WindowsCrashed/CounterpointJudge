@@ -1,3 +1,4 @@
+import { motions } from './data/db'
 import { getNoteMidi } from './getters'
 import { calculateHarmonicInterval, calculateMelodicInterval } from './intervals'
 
@@ -12,14 +13,20 @@ function analyseHarmonicIntervals(sequence: Array<string[]>) {
 
 	console.log(intervalList.map(i => i.label).join(' -> '))
 
-	for (let i = 1; i < intervalList.length; i++) {
-		if (intervalList[i].steps === intervalList[i - 1].steps) {
-			if (intervalList[i].steps === 7) {
-				console.log('PARALLEL FIFTHS')
-			} else if (intervalList[i].steps === 0) {
-				console.log('PARALLEL UNISON')
-			} else if (intervalList[i].steps === 12) {
-				console.log('PARALLEL OCTAVES')
+	for (let i = 0; i < intervalList.length; i++) {
+		if ([1, 2, 5, 6, 10, 11].includes(intervalList[i].steps)) {
+			console.log('DISSONANCE')
+		}
+
+		if (i !== 0) {
+			if (intervalList[i].steps === intervalList[i - 1].steps) {
+				if (intervalList[i].steps === 7) {
+					console.log('PARALLEL FIFTHS')
+				} else if (intervalList[i].steps === 0) {
+					console.log('PARALLEL UNISON')
+				} else if (intervalList[i].steps === 12) {
+					console.log('PARALLEL OCTAVES')
+				}
 			}
 		}
 	}
@@ -58,9 +65,43 @@ function analyseMelodicIntervals(sequence: Array<string[]>) {
 	}
 }
 
+function analyseMotion(sequence: Array<string[]>) {
+	console.log('------- MOTION ------')
+
+	const motionList = []
+
+	for (let i = 1; i < sequence.length; i++) {
+		const lowerDiff = getNoteMidi(sequence[i][0]) - getNoteMidi(sequence[i - 1][0])
+		const upperDiff = getNoteMidi(sequence[i][1]) - getNoteMidi(sequence[i - 1][1])
+
+		if ((lowerDiff > 0 && upperDiff > 0) || (lowerDiff < 0 && upperDiff < 0)) {
+			motionList.push(motions.find(m => m.code === 1))
+		} else if ((lowerDiff > 0 && upperDiff < 0) || (lowerDiff < 0 && upperDiff > 0)) {
+			motionList.push(motions.find(m => m.code === -1))
+		} else if ((lowerDiff !== 0 && upperDiff === 0) || (lowerDiff === 0 && upperDiff !== 0)) {
+			motionList.push(motions.find(m => m.code === 0))
+		} else {
+			motionList.push(motions.find(m => m.code === -2))
+		}
+	}
+
+	console.log(motionList.map(i => i?.label).join(' -> '))
+
+	for (let i = 0; i < motionList.length; i++) {
+		const harmonicInterval = calculateHarmonicInterval(
+			getNoteMidi(sequence[i + 1][0]),
+			getNoteMidi(sequence[i + 1][1])
+		)
+		if (motionList[i]?.code === 1 && [0, 7, 12].includes(harmonicInterval.steps)) {
+			console.log('DIRECT PERFECT CONSONANCE')
+		}
+	}
+}
+
 function analyseSequence(sequence: Array<string[]>) {
 	analyseHarmonicIntervals(sequence)
 	analyseMelodicIntervals(sequence)
+	analyseMotion(sequence)
 }
 
 const testNotes = [
@@ -139,6 +180,7 @@ const testNotesFux2 = [
 // analyseSequence(testNotes)
 // analyseSequence(testNotes2)
 // analyseSequence(testNotes3)
-analyseSequence(testNotes4)
+// analyseSequence(testNotes4)
 analyseSequence(testNotesFux1)
+console.log('')
 analyseSequence(testNotesFux2)
