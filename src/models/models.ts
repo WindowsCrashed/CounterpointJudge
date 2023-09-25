@@ -12,3 +12,8 @@ export type Interval = {
 	label: string
 	steps: number
 }
+
+export type Motion = {
+	label: string
+	code: number
+}
