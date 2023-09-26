@@ -1,7 +1,5 @@
 import { FC, useState } from 'react'
 import './style.css'
-import { Note } from '@tonejs/midi/dist/Note'
-import { Midi } from '@tonejs/midi'
 import { MidiData } from '../../models/models'
 import { readMidi } from '../../helpers/readMidi'
 import axios from 'axios'

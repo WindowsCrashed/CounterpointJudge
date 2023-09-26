@@ -17,3 +17,8 @@ export type Motion = {
 	label: string
 	code: number
 }
+
+export type MidiData = {
+	trackCount: number
+	tracks: number[][]
+}
