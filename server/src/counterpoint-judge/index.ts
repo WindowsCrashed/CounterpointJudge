@@ -1,36 +1,5 @@
 import { motions } from './data/db'
 import { getNoteMidi } from './getters'
-import { calculateHarmonicInterval, calculateMelodicInterval } from './intervals'
-
-function analyseHarmonicIntervals(sequence: Array<string[]>) {
-	console.log('------- HARMONY ------')
-
-	const intervalList = []
-	for (const notePair of sequence) {
-		const result = calculateHarmonicInterval(getNoteMidi(notePair[0]), getNoteMidi(notePair[1]))
-		intervalList.push(result)
-	}
-
-	console.log(intervalList.map(i => i.label).join(' -> '))
-
-	for (let i = 0; i < intervalList.length; i++) {
-		if ([1, 2, 5, 6, 10, 11].includes(intervalList[i].steps)) {
-			console.log('DISSONANCE')
-		}
-
-		if (i !== 0) {
-			if (intervalList[i].steps === intervalList[i - 1].steps) {
-				if (intervalList[i].steps === 7) {
-					console.log('PARALLEL FIFTHS')
-				} else if (intervalList[i].steps === 0) {
-					console.log('PARALLEL UNISON')
-				} else if (intervalList[i].steps === 12) {
-					console.log('PARALLEL OCTAVES')
-				}
-			}
-		}
-	}
-}
 
 function analyseMelodicIntervals(sequence: Array<string[]>) {
 	console.log('------- MELODY ------')
