@@ -1,39 +1,6 @@
 import { motions } from './data/db'
 import { getNoteMidi } from './getters'
 
-function analyseMelodicIntervals(sequence: Array<string[]>) {
-	console.log('------- MELODY ------')
-
-	const lines: Array<string[]> = [[], []]
-
-	for (const pair of sequence) {
-		lines[0].push(pair[0])
-		lines[1].push(pair[1])
-	}
-
-	for (const line of lines) {
-		const intervalList = []
-		for (let i = 1; i < line.length; i++) {
-			const result = calculateMelodicInterval(getNoteMidi(line[i - 1]), getNoteMidi(line[i]))
-			intervalList.push(result)
-		}
-
-		console.log(intervalList.map(i => i.label).join(' -> '))
-
-		for (let i = 0; i < intervalList.length; i++) {
-			if (intervalList[i].steps === 13) {
-				console.log('INTERVAL BIGGER THAN OCTAVE')
-			} else if (intervalList[i].steps === 6) {
-				console.log('TRITONE')
-			} else if (intervalList[i].steps === 10 || intervalList[i].steps === 11) {
-				console.log('SEVENTH INTERVAL')
-			} else if (intervalList[i].steps === 9) {
-				console.log('MAJOR SIXTH INTERVAL')
-			}
-		}
-	}
-}
-
 function analyseMotion(sequence: Array<string[]>) {
 	console.log('------- MOTION ------')
 

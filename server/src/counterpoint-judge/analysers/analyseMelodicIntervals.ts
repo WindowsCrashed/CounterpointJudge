@@ -13,7 +13,7 @@ const analyseMelodicIntervals = (sequence: number[][]): Mistake[] => {
 	for (const line of lines) {
 		const intervalList = []
 
-		for (let i = 0; i < line.length; i++) {
+		for (let i = 1; i < line.length; i++) {
 			const result = calculateMelodicInterval(line[i - 1], line[i])
 			intervalList.push(result)
 		}

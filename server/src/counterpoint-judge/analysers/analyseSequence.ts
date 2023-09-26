@@ -1,12 +1,13 @@
 import analyseHarmonicIntervals from './analyseHarmonicIntervals'
 import analyseMelodicIntervals from './analyseMelodicIntervals'
+import analyseMotion from './analyseMotion'
 
 const analyseSequence = (sequence: number[][], mode: string = 'D') => {
 	const mistakes = []
 
 	mistakes.push(analyseHarmonicIntervals(sequence))
 	mistakes.push(analyseMelodicIntervals(sequence))
-	// mistakes.push(analyseMotion(sequence))
+	mistakes.push(analyseMotion(sequence))
 	// mistakes.push(analyseMode(sequence, mode))
 
 	// displayScore(sequence, mistakes)
