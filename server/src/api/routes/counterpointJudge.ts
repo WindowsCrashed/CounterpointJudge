@@ -9,7 +9,10 @@ router.get('/', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
 	const data = req.body
 
-	res.send(`This is your data:\n  trackCount: ${data.trackCount}\n  tracks:${data.tracks}`)
+	console.log(
+		`This is your data:\n  trackCount: ${data.trackCount}\n  tracks:${data.tracks[0][0].midi}`
+	)
+	res.status(200).send()
 })
 
 export default router
