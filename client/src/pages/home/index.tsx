@@ -1,11 +1,13 @@
 import { FC, useState } from 'react'
 import './style.css'
-import { MidiData } from '../../models/models'
+import { FeedbackData, MidiData } from '../../models/models'
 import { readMidi } from '../../helpers/readMidi'
 import axios from 'axios'
 
 const Home: FC = () => {
 	const [midiData, setMidiData] = useState<MidiData>()
+	const [mode, setMode] = useState<string>('D')
+	const [feedback, setFeedback] = useState<FeedbackData>()
 
 	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault()
@@ -30,17 +32,44 @@ const Home: FC = () => {
 	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
 
-		const res = await axios.post('http://localhost:3001/counterpoint-judge', midiData)
-		console.log(res.data)
+		if (midiData) {
+			const dataToSend = midiData
+			dataToSend.mode = mode
+
+			const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
+
+			setFeedback(res.data)
+			console.log(res.data)
+		}
 	}
 
 	return (
 		<div className='home'>
 			<h1>ONLINE COUNTERPOINT JUDGE</h1>
 			<input type='file' name='midi-file' id='' accept='audio/midi' onChange={handleInput} />
+			<select id='' value={mode} onChange={e => setMode(e.target.value)}>
+				<option value='D'>D</option>
+				<option value='E'>E</option>
+				<option value='F'>F</option>
+				<option value='G'>G</option>
+				<option value='A'>A</option>
+				<option value='C'>C</option>
+			</select>
 			<button type='submit' onClick={handleSubmit}>
 				Judge
 			</button>
+			{feedback && (
+				<div>
+					<h2>Score: {feedback.score.toFixed(1)}</h2>
+					<p>Mistake count: {feedback.mistakeCount}</p>
+					<p>Mistakes:</p>
+					<ul>
+						{feedback.mistakes.map((m, index) => (
+							<li key={index}>{m}</li>
+						))}
+					</ul>
+				</div>
+			)}
 		</div>
 	)
 }
