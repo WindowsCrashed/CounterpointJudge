@@ -24,11 +24,6 @@ export type Mode = {
 	triad: string[]
 }
 
-export type MidiData = {
-	trackCount: number
-	tracks: number[][]
-}
-
 export type Mistake = {
 	header: string
 	measures: number[]

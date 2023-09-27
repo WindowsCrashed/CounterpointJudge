@@ -1,4 +1,4 @@
-import { MidiData } from '../models/models'
+import { MidiData } from '../../shared/models'
 
 // Only works for multi track midi
 const genSequence = (midiData: MidiData) => {

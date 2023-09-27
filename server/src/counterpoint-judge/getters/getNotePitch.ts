@@ -1,15 +1,15 @@
 import { notes } from '../data/db'
 import getEnharmonic from './getEnharmonic'
 
-const getNoteMidi = (label: string): number => {
+const getNotePitch = (label: string): number => {
 	if (label.length > 3 || label.length <= 0) return 0
-	let note = notes.find(n => n.label === label)?.midi
+	let note = notes.find(n => n.label === label)?.pitch
 	if (!note) {
 		const enharmonicLabel = getEnharmonic(label)
-		note = notes.find(n => n.label === enharmonicLabel)?.midi
+		note = notes.find(n => n.label === enharmonicLabel)?.pitch
 	}
 	if (!note) return 0
 	return note
 }
 
-export default getNoteMidi
+export default getNotePitch

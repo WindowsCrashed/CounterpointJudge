@@ -27,10 +27,11 @@ const Home: FC = () => {
 		}
 	}
 
-	const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
 
-		axios.post('http://localhost:3001/counterpoint-judge', midiData)
+		const res = await axios.post('http://localhost:3001/counterpoint-judge', midiData)
+		console.log(res.data)
 	}
 
 	return (

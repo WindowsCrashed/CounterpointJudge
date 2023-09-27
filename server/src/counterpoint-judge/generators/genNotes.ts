@@ -1,4 +1,5 @@
-export function genNotes(): void {
+// For generating the array of notes from db (no function in the algorithm)
+const genNotes = () => {
 	const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 	let counter = 12
@@ -10,3 +11,5 @@ export function genNotes(): void {
 		}
 	}
 }
+
+export default genNotes
