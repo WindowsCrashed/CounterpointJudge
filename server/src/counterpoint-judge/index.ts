@@ -1,45 +1,6 @@
 import { motions } from './data/db'
 import { getNoteMidi } from './getters'
 
-function analyseMotion(sequence: Array<string[]>) {
-	console.log('------- MOTION ------')
-
-	const motionList = []
-
-	for (let i = 1; i < sequence.length; i++) {
-		const lowerDiff = getNoteMidi(sequence[i][0]) - getNoteMidi(sequence[i - 1][0])
-		const upperDiff = getNoteMidi(sequence[i][1]) - getNoteMidi(sequence[i - 1][1])
-
-		if ((lowerDiff > 0 && upperDiff > 0) || (lowerDiff < 0 && upperDiff < 0)) {
-			motionList.push(motions.find(m => m.code === 1))
-		} else if ((lowerDiff > 0 && upperDiff < 0) || (lowerDiff < 0 && upperDiff > 0)) {
-			motionList.push(motions.find(m => m.code === -1))
-		} else if ((lowerDiff !== 0 && upperDiff === 0) || (lowerDiff === 0 && upperDiff !== 0)) {
-			motionList.push(motions.find(m => m.code === 0))
-		} else {
-			motionList.push(motions.find(m => m.code === -2))
-		}
-	}
-
-	console.log(motionList.map(i => i?.label).join(' -> '))
-
-	for (let i = 0; i < motionList.length; i++) {
-		const harmonicInterval = calculateHarmonicInterval(
-			getNoteMidi(sequence[i + 1][0]),
-			getNoteMidi(sequence[i + 1][1])
-		)
-		if (motionList[i]?.code === 1 && [0, 7, 12].includes(harmonicInterval.steps)) {
-			console.log('DIRECT PERFECT CONSONANCE')
-		}
-	}
-}
-
-function analyseSequence(sequence: Array<string[]>) {
-	analyseHarmonicIntervals(sequence)
-	analyseMelodicIntervals(sequence)
-	analyseMotion(sequence)
-}
-
 const testNotes = [
 	['C4', 'G4'],
 	['E4', 'G4'],
@@ -112,11 +73,3 @@ const testNotesFux2 = [
 	['C#4', 'E4'],
 	['D4', 'D4']
 ]
-
-// analyseSequence(testNotes)
-// analyseSequence(testNotes2)
-// analyseSequence(testNotes3)
-// analyseSequence(testNotes4)
-analyseSequence(testNotesFux1)
-console.log('')
-analyseSequence(testNotesFux2)

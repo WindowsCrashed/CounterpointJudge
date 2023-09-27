@@ -1,6 +1,6 @@
 export type Note = {
 	label: string
-	midi: number
+	pitch: number
 }
 
 export type Enharmonic = {
@@ -16,6 +16,12 @@ export type Interval = {
 export type Motion = {
 	label: string
 	code: number
+}
+
+export type Mode = {
+	label: string
+	code: number
+	triad: string[]
 }
 
 export type MidiData = {
