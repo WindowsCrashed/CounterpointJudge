@@ -8,6 +8,8 @@ import genSheetMusic from '../../helpers/genSheetMusic'
 const Home: FC = () => {
 	const [midiData, setMidiData] = useState<MidiData>()
 	const [mode, setMode] = useState<string>('D')
+	const [firstTrack, setFirstTrack] = useState<string>('soprano')
+	const [secondTrack, setSecondTrack] = useState<string>('alto')
 	const [feedback, setFeedback] = useState<FeedbackData>()
 	const outputDiv = useRef<HTMLDivElement>(null)
 
@@ -43,7 +45,7 @@ const Home: FC = () => {
 			const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
 
 			setFeedback(res.data)
-			genSheetMusic('output', res.data)
+			genSheetMusic('output', res.data, { firstTrack, secondTrack })
 			console.log(res.data)
 		}
 	}
@@ -56,14 +58,36 @@ const Home: FC = () => {
 		<div className='home'>
 			<h1>ONLINE COUNTERPOINT JUDGE</h1>
 			<input type='file' name='midi-file' id='' accept='audio/midi' onChange={handleInput} />
-			<select id='' value={mode} onChange={e => setMode(e.target.value)}>
-				<option value='D'>D</option>
-				<option value='E'>E</option>
-				<option value='F'>F</option>
-				<option value='G'>G</option>
-				<option value='A'>A</option>
-				<option value='C'>C</option>
-			</select>
+			<label>
+				Mode
+				<select id='' value={mode} onChange={e => setMode(e.target.value)}>
+					<option value='D'>D</option>
+					<option value='E'>E</option>
+					<option value='F'>F</option>
+					<option value='G'>G</option>
+					<option value='A'>A</option>
+					<option value='C'>C</option>
+				</select>
+			</label>
+			<label>
+				First track:
+				<select id='' value={firstTrack} onChange={e => setFirstTrack(e.target.value)}>
+					<option value='soprano'>soprano</option>
+					<option value='alto'>alto</option>
+					<option value='tenor'>tenor</option>
+					<option value='bass'>bass</option>
+				</select>
+			</label>
+			<label>
+				Second track:
+				<select id='' value={secondTrack} onChange={e => setSecondTrack(e.target.value)}>
+					<option value='soprano'>soprano</option>
+					<option value='alto'>alto</option>
+					<option value='tenor'>tenor</option>
+					<option value='bass'>bass</option>
+				</select>
+			</label>
+
 			<button type='submit' onClick={handleSubmit}>
 				Judge
 			</button>

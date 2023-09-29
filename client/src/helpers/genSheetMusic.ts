@@ -27,11 +27,24 @@ const formatNoteLabel = (label: string): string => {
 	return formatedLabel
 }
 
+const setClef = (voiceType: string): string => {
+	const type = voiceType.toLowerCase()
+
+	if (type === 'soprano' || type === 'alto') {
+		return 'treble'
+	} else if (type === 'tenor') {
+		return 'tenor'
+	} else {
+		return 'bass'
+	}
+}
+
 const genStaves = (
 	feedback: FeedbackData,
 	initialX: number,
 	baseWidth: number,
-	baseX: number
+	baseX: number,
+	clefs: { top: string; bottom: string }
 ): Staves => {
 	const staves: Staves = { topStave: [], bottomStave: [] }
 
@@ -43,7 +56,7 @@ const genStaves = (
 				new Stave(initialX, 40, baseWidth + 50, {
 					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
 				})
-					.addClef('treble')
+					.addClef(clefs.top)
 					.addTimeSignature('C|')
 					.addModifier(
 						new StaveText(`${i + 1}`, 1, {
@@ -57,7 +70,7 @@ const genStaves = (
 				new Stave(initialX, 140, baseWidth + 50, {
 					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
 				})
-					.addClef('treble')
+					.addClef(clefs.bottom)
 					.addTimeSignature('C|')
 			)
 			// if last measure
@@ -104,7 +117,7 @@ const genStaves = (
 	return staves
 }
 
-const genNotes = (feedback: FeedbackData): Notes => {
+const genNotes = (feedback: FeedbackData, clefs: { top: string; bottom: string }): Notes => {
 	const notes: Notes = { topNotes: [], bottomNotes: [] }
 
 	// Create notes
@@ -114,13 +127,15 @@ const genNotes = (feedback: FeedbackData): Notes => {
 			const newTopNote = [
 				new StaveNote({
 					keys: [formatNoteLabel(feedback.notes[i][1])],
-					duration: '1/2'
+					duration: '1/2',
+					clef: clefs.top
 				})
 			]
 			const newBottomNote = [
 				new StaveNote({
 					keys: [formatNoteLabel(feedback.notes[i][0])],
-					duration: '1/2'
+					duration: '1/2',
+					clef: clefs.bottom
 				})
 			]
 
@@ -139,10 +154,18 @@ const genNotes = (feedback: FeedbackData): Notes => {
 		// if other note pairs
 		else {
 			const newTopNote = [
-				new StaveNote({ keys: [formatNoteLabel(feedback.notes[i][1])], duration: 'w' })
+				new StaveNote({
+					keys: [formatNoteLabel(feedback.notes[i][1])],
+					duration: 'w',
+					clef: clefs.top
+				})
 			]
 			const newBottomNote = [
-				new StaveNote({ keys: [formatNoteLabel(feedback.notes[i][0])], duration: 'w' })
+				new StaveNote({
+					keys: [formatNoteLabel(feedback.notes[i][0])],
+					duration: 'w',
+					clef: clefs.bottom
+				})
 			]
 
 			// add accidentals
@@ -162,8 +185,13 @@ const genNotes = (feedback: FeedbackData): Notes => {
 	return notes
 }
 
-const genSheetMusic = (outputElementId: string, feedback: FeedbackData) => {
+const genSheetMusic = (
+	outputElementId: string,
+	feedback: FeedbackData,
+	trackVoices: { firstTrack: string; secondTrack: string }
+) => {
 	const renderer = new Renderer(outputElementId, Renderer.Backends.SVG)
+	const clefs = { top: setClef(trackVoices.firstTrack), bottom: setClef(trackVoices.secondTrack) }
 
 	renderer.resize(feedback.notes.length * 88, 300) // calculates with based on number of measures
 	const context = renderer.getContext()
@@ -172,13 +200,13 @@ const genSheetMusic = (outputElementId: string, feedback: FeedbackData) => {
 	const baseX = initialX + 50
 	const baseWidth = 80
 
-	const staves = genStaves(feedback, initialX, baseWidth, baseX)
+	const staves = genStaves(feedback, initialX, baseWidth, baseX, clefs)
 
 	staves.topStave.forEach(s => s.setContext(context).draw())
 	staves.bottomStave.forEach(s => s.setContext(context).draw())
 
 	// Create notes
-	const notes = genNotes(feedback)
+	const notes = genNotes(feedback, clefs)
 
 	const brace = new StaveConnector(staves.topStave[0], staves.bottomStave[0])
 	brace.setType(StaveConnector.type.BRACKET)
