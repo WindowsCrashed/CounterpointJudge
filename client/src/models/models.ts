@@ -8,5 +8,6 @@ export type FeedbackData = {
 	score: number
 	mistakeCount: number
 	mistakes: string[]
+	affectedMeasures: number[]
 	notes: string[][]
 }

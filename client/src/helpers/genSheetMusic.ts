@@ -40,7 +40,9 @@ const genStaves = (
 		// if first measure
 		if (i === 0) {
 			staves.topStave.push(
-				new Stave(initialX, 40, baseWidth + 50)
+				new Stave(initialX, 40, baseWidth + 50, {
+					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+				})
 					.addClef('treble')
 					.addTimeSignature('C|')
 					.addModifier(
@@ -52,12 +54,18 @@ const genStaves = (
 			)
 
 			staves.bottomStave.push(
-				new Stave(initialX, 140, baseWidth + 50).addClef('treble').addTimeSignature('C|')
+				new Stave(initialX, 140, baseWidth + 50, {
+					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+				})
+					.addClef('treble')
+					.addTimeSignature('C|')
 			)
 			// if last measure
 		} else if (i === feedback.notes.length - 1) {
 			staves.topStave.push(
-				new Stave(baseX + baseWidth * i, 40, baseWidth)
+				new Stave(baseX + baseWidth * i, 40, baseWidth, {
+					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+				})
 					.setEndBarType(Barline.type.END)
 					.addModifier(
 						new StaveText(`${i + 1}`, 1, {
@@ -68,12 +76,16 @@ const genStaves = (
 			)
 
 			staves.bottomStave.push(
-				new Stave(baseX + baseWidth * i, 140, baseWidth).setEndBarType(Barline.type.END)
+				new Stave(baseX + baseWidth * i, 140, baseWidth, {
+					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+				}).setEndBarType(Barline.type.END)
 			)
 			// if other measures
 		} else {
 			staves.topStave.push(
-				new Stave(baseX + baseWidth * i, 40, baseWidth).addModifier(
+				new Stave(baseX + baseWidth * i, 40, baseWidth, {
+					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+				}).addModifier(
 					new StaveText(`${i + 1}`, 1, {
 						shift_y: -50,
 						shift_x: 72
@@ -81,7 +93,11 @@ const genStaves = (
 				)
 			)
 
-			staves.bottomStave.push(new Stave(baseX + baseWidth * i, 140, baseWidth))
+			staves.bottomStave.push(
+				new Stave(baseX + baseWidth * i, 140, baseWidth, {
+					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+				})
+			)
 		}
 	}
 
