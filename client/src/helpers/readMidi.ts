@@ -7,5 +7,6 @@ export const readMidi = (file: ArrayBuffer) => {
 		trackCount: midi.tracks.length,
 		tracks: midi.tracks.map(t => t.notes.map(n => n.midi))
 	}
+
 	return data
 }

@@ -1,13 +1,15 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import './style.css'
 import { FeedbackData, MidiData } from '../../models/models'
 import { readMidi } from '../../helpers/readMidi'
 import axios from 'axios'
+import genSheetMusic from '../../helpers/genSheetMusic'
 
 const Home: FC = () => {
 	const [midiData, setMidiData] = useState<MidiData>()
 	const [mode, setMode] = useState<string>('D')
 	const [feedback, setFeedback] = useState<FeedbackData>()
+	const outputDiv = useRef<HTMLDivElement>(null)
 
 	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault()
@@ -32,6 +34,8 @@ const Home: FC = () => {
 	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
 
+		if (outputDiv.current) outputDiv.current.innerHTML = ''
+
 		if (midiData) {
 			const dataToSend = midiData
 			dataToSend.mode = mode
@@ -39,9 +43,14 @@ const Home: FC = () => {
 			const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
 
 			setFeedback(res.data)
+			genSheetMusic('output', res.data)
 			console.log(res.data)
 		}
 	}
+
+	useEffect(() => {
+		// runTestFux()
+	}, [])
 
 	return (
 		<div className='home'>
@@ -70,6 +79,7 @@ const Home: FC = () => {
 					</ul>
 				</div>
 			)}
+			<div id='output' ref={outputDiv}></div>
 		</div>
 	)
 }
