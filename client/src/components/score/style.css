@@ -11,4 +11,17 @@
 .score .points {
 	font-size: 5.5rem;
 	font-weight: 400;
+	transition: color 2.5s;
+}
+
+.score .red {
+	color: rgb(229, 46, 46);
+}
+
+.score .green {
+	color: rgb(49, 160, 69);
+}
+
+.score .yellow {
+	color: rgb(255, 223, 14);
 }
