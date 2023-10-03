@@ -4,10 +4,17 @@ export type MidiData = {
 	mode?: string
 }
 
+export type MistakeData = {
+	header: string
+	measures: number[]
+	notes: (string | string[])[]
+	weight: number
+}
+
 export type FeedbackData = {
 	score: number
 	mistakeCount: number
-	mistakes: string[]
+	mistakes: MistakeData[]
 	affectedMeasures: number[]
 	notes: string[][]
 }
