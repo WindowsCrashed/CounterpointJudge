@@ -11,3 +11,8 @@ export type FeedbackData = {
 	affectedMeasures: number[]
 	notes: string[][]
 }
+
+export type TrackVoices = {
+	firstTrack: string
+	secondTrack: string
+}

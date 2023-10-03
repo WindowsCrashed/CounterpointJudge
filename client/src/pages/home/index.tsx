@@ -1,109 +1,37 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useState } from 'react'
 import './style.css'
-import { FeedbackData, MidiData } from '../../models/models'
-import { readMidi } from '../../helpers/readMidi'
-import axios from 'axios'
-import genSheetMusic from '../../helpers/genSheetMusic'
+import { MidiData, TrackVoices } from '../../models/models'
+import Input from './input'
+import OutputQuery from './output/output-query'
 
 const Home: FC = () => {
 	const [midiData, setMidiData] = useState<MidiData>()
-	const [mode, setMode] = useState<string>('D')
-	const [firstTrack, setFirstTrack] = useState<string>('soprano')
-	const [secondTrack, setSecondTrack] = useState<string>('alto')
-	const [feedback, setFeedback] = useState<FeedbackData>()
-	const outputDiv = useRef<HTMLDivElement>(null)
+	const [trackVoices, setTrackVoices] = useState<TrackVoices>()
+	const [currentDisplayComponent, setCurrentDisplayComponent] = useState<'input' | 'output'>(
+		'input'
+	)
 
-	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault()
-
-		if (e.target.files !== null && e.target.files.length) {
-			const reader = new FileReader()
-
-			reader.addEventListener('load', e => {
-				const result = e.target?.result
-
-				if (result !== null && result !== undefined && typeof result !== 'string') {
-					const data = readMidi(result)
-					setMidiData(data)
-					console.log(data)
-				}
-			})
-
-			reader.readAsArrayBuffer(e.target.files[0])
-		}
+	const handleSubmit = (midiData: MidiData, trackVoices: TrackVoices) => {
+		setMidiData(midiData)
+		setTrackVoices(trackVoices)
+		setCurrentDisplayComponent('output')
 	}
 
-	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
+	const showCurrentDisplayComponent = () => {
+		if (currentDisplayComponent === 'input') {
+			return <Input onSubmit={handleSubmit} />
+		}
 
-		if (outputDiv.current) outputDiv.current.innerHTML = ''
-
-		if (midiData) {
-			const dataToSend = midiData
-			dataToSend.mode = mode
-
-			const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
-
-			setFeedback(res.data)
-			genSheetMusic('output', res.data, { firstTrack, secondTrack })
-			console.log(res.data)
+		if (midiData && trackVoices) {
+			return <OutputQuery dataToSend={midiData} trackVoices={trackVoices} />
 		}
 	}
-
-	useEffect(() => {
-		// runTestFux()
-	}, [])
 
 	return (
 		<div className='home'>
 			<h1>ONLINE COUNTERPOINT JUDGE</h1>
-			<input type='file' name='midi-file' id='' accept='audio/midi' onChange={handleInput} />
-			<label>
-				Mode
-				<select id='' value={mode} onChange={e => setMode(e.target.value)}>
-					<option value='D'>D</option>
-					<option value='E'>E</option>
-					<option value='F'>F</option>
-					<option value='G'>G</option>
-					<option value='A'>A</option>
-					<option value='C'>C</option>
-				</select>
-			</label>
-			<label>
-				First track:
-				<select id='' value={firstTrack} onChange={e => setFirstTrack(e.target.value)}>
-					<option value='soprano'>soprano</option>
-					<option value='alto'>alto</option>
-					<option value='tenor'>tenor</option>
-					<option value='bass'>bass</option>
-				</select>
-			</label>
-			<label>
-				Second track:
-				<select id='' value={secondTrack} onChange={e => setSecondTrack(e.target.value)}>
-					<option value='soprano'>soprano</option>
-					<option value='alto'>alto</option>
-					<option value='tenor'>tenor</option>
-					<option value='bass'>bass</option>
-				</select>
-			</label>
-
-			<button type='submit' onClick={handleSubmit}>
-				Judge
-			</button>
-			{feedback && (
-				<div>
-					<h2>Score: {feedback.score.toFixed(1)}</h2>
-					<p>Mistake count: {feedback.mistakeCount}</p>
-					<p>Mistakes:</p>
-					<ul>
-						{feedback.mistakes.map((m, index) => (
-							<li key={index}>{m}</li>
-						))}
-					</ul>
-				</div>
-			)}
-			<div id='output' ref={outputDiv}></div>
+			<button onClick={() => setCurrentDisplayComponent('input')}>Clear output</button>
+			{showCurrentDisplayComponent()}
 		</div>
 	)
 }

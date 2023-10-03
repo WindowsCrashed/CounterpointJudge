@@ -8,7 +8,7 @@ import {
 	StaveNote,
 	StaveText
 } from 'vexflow'
-import { FeedbackData } from '../models/models'
+import { FeedbackData, TrackVoices } from '../models/models'
 
 type Staves = {
 	topStave: Stave[]
@@ -188,7 +188,7 @@ const genNotes = (feedback: FeedbackData, clefs: { top: string; bottom: string }
 const genSheetMusic = (
 	outputElementId: string,
 	feedback: FeedbackData,
-	trackVoices: { firstTrack: string; secondTrack: string }
+	trackVoices: TrackVoices
 ) => {
 	const renderer = new Renderer(outputElementId, Renderer.Backends.SVG)
 	const clefs = { top: setClef(trackVoices.firstTrack), bottom: setClef(trackVoices.secondTrack) }

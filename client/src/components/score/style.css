@@ -1,0 +1,14 @@
+.score {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.score .label {
+}
+
+.score .points {
+	font-size: 5.5rem;
+	font-weight: 400;
+}
