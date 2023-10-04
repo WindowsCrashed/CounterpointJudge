@@ -1,0 +1,22 @@
+.fill-green {
+	background: linear-gradient(#00000000, #00000000 50%, #22c55e 50%, #22c55e);
+	background-size: 100% 200%;
+	transition: background 1s;
+	/*trasition effect for background*/
+}
+
+.fill-yellow {
+	background: linear-gradient(#00000000, #00000000 50%, #fbbf24 50%, #fbbf24);
+	background-size: 100% 200%;
+	transition: background 1s;
+}
+
+.fill-red {
+	background: linear-gradient(#00000000, #00000000 50%, #ef4444 50%, #ef4444);
+	background-size: 100% 200%;
+	transition: background 1s;
+}
+
+.fill-bg {
+	background-position: 100% 100%;
+}
