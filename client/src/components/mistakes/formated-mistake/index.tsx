@@ -9,14 +9,14 @@ const FormatedMistake: FC<FormatedMistakeProps> = ({ mistake }) => {
 	const displayHeader = (header: string, weight: number) => {
 		let color = ''
 		if (weight === 0.5) {
-			color = 'yellow-500'
+			color = 'text-yellow-500'
 		} else if (weight === 1.0) {
-			color = 'orange-500'
+			color = 'text-orange-500'
 		} else {
-			color = 'red-600'
+			color = 'text-red-600'
 		}
 
-		return <span className={`text-${color} font-extrabold`}>{header}</span>
+		return <span className={`${color} font-extrabold`}>{header}</span>
 	}
 
 	const formatMistake = (mistake: Mistake) => {

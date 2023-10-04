@@ -1,5 +1,4 @@
 import { FC, useState } from 'react'
-import './style.css'
 import { MidiData, TrackVoices } from '../../models/models'
 import Input from './input'
 import OutputQuery from './output/output-query'
@@ -17,20 +16,31 @@ const Home: FC = () => {
 		setCurrentDisplayComponent('output')
 	}
 
+	const returnToInputScreen = () => {
+		setCurrentDisplayComponent('input')
+	}
+
 	const showCurrentDisplayComponent = () => {
 		if (currentDisplayComponent === 'input') {
 			return <Input onSubmit={handleSubmit} />
 		}
 
 		if (midiData && trackVoices) {
-			return <OutputQuery dataToSend={midiData} trackVoices={trackVoices} />
+			return (
+				<OutputQuery
+					dataToSend={midiData}
+					trackVoices={trackVoices}
+					onReturnToInput={returnToInputScreen}
+				/>
+			)
 		}
 	}
 
 	return (
-		<div className='home'>
-			<h1>ONLINE COUNTERPOINT JUDGE</h1>
-			<button onClick={() => setCurrentDisplayComponent('input')}>Clear output</button>
+		<div className='flex flex-col items-center justify-start h-screen'>
+			<div className='text-white font-extrabold text-3xl mb-10 mt-10 drop-shadow-lg'>
+				🎼 ONLINE COUNTERPOINT JUDGE 🎼
+			</div>
 			{showCurrentDisplayComponent()}
 		</div>
 	)

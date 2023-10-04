@@ -193,8 +193,10 @@ const genSheetMusic = (
 	const renderer = new Renderer(outputElementId, Renderer.Backends.SVG)
 	const clefs = { top: setClef(trackVoices.firstTrack), bottom: setClef(trackVoices.secondTrack) }
 
-	renderer.resize(feedback.notes.length * 88, 300) // calculates with based on number of measures
+	renderer.resize(feedback.notes.length * 71, 240) // calculates with based on number of measures
 	const context = renderer.getContext()
+
+	context.scale(0.8, 0.8)
 
 	const initialX = 10
 	const baseX = initialX + 50
