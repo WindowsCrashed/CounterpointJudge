@@ -1,6 +1,16 @@
 import { FC, useState } from 'react'
 import { MidiData } from '../../../models/models'
 import { readMidi } from '../../../helpers/readMidi'
+import Button from '../../../components/button'
+import { Tooltip } from 'react-tooltip'
+import Select from '../../../components/select'
+import Separator from '../../../components/separator'
+import { useLocalStorage } from 'usehooks-ts'
+import FadeIn from 'react-fade-in'
+
+const modes = ['D', 'E', 'F', 'G', 'A', 'C']
+
+const voices = ['Soprano', 'Alto', 'Tenor', 'Bass']
 
 type InputProps = {
 	onSubmit: Function
@@ -8,9 +18,10 @@ type InputProps = {
 
 const Input: FC<InputProps> = ({ onSubmit }) => {
 	const [midiData, setMidiData] = useState<MidiData>()
-	const [mode, setMode] = useState<string>('D')
-	const [firstTrack, setFirstTrack] = useState<string>('soprano')
-	const [secondTrack, setSecondTrack] = useState<string>('alto')
+	const [fileTitle, setFileTitle] = useState<string>()
+	const [mode, setMode] = useLocalStorage<string>('mode', 'D')
+	const [firstTrack, setFirstTrack] = useLocalStorage<string>('firstTrack', 'soprano')
+	const [secondTrack, setSecondTrack] = useLocalStorage<string>('secondTrack', 'alto')
 
 	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault()
@@ -18,13 +29,14 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 		if (e.target.files !== null && e.target.files.length) {
 			const reader = new FileReader()
 
+			setFileTitle(e.target.files[0].name)
+
 			reader.addEventListener('load', e => {
 				const result = e.target?.result
 
 				if (result !== null && result !== undefined && typeof result !== 'string') {
 					const data = readMidi(result)
 					setMidiData(data)
-					console.log(data)
 				}
 			})
 
@@ -32,9 +44,7 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 		}
 	}
 
-	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
-
+	const handleSubmit = () => {
 		if (midiData) {
 			const dataToSend = midiData
 			dataToSend.mode = mode
@@ -44,42 +54,56 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 	}
 
 	return (
-		<div className='input'>
-			<input type='file' name='midi-file' id='' accept='audio/midi' onChange={handleInput} />
-			<label>
-				Mode
-				<select id='' value={mode} onChange={e => setMode(e.target.value)}>
-					<option value='D'>D</option>
-					<option value='E'>E</option>
-					<option value='F'>F</option>
-					<option value='G'>G</option>
-					<option value='A'>A</option>
-					<option value='C'>C</option>
-				</select>
-			</label>
-			<label>
-				First track:
-				<select id='' value={firstTrack} onChange={e => setFirstTrack(e.target.value)}>
-					<option value='soprano'>soprano</option>
-					<option value='alto'>alto</option>
-					<option value='tenor'>tenor</option>
-					<option value='bass'>bass</option>
-				</select>
-			</label>
-			<label>
-				Second track:
-				<select id='' value={secondTrack} onChange={e => setSecondTrack(e.target.value)}>
-					<option value='soprano'>soprano</option>
-					<option value='alto'>alto</option>
-					<option value='tenor'>tenor</option>
-					<option value='bass'>bass</option>
-				</select>
-			</label>
-
-			<button type='submit' onClick={handleSubmit}>
-				Judge
-			</button>
-		</div>
+		<FadeIn className='flex flex-col justify-center items-center' delay={300}>
+			<div className='input bg-white rounded-lg drop-shadow-lg p-6 flex flex-col justify-center items-center'>
+				<div className='flex flex-col items-center justify-center mb-3'>
+					<label
+						className='border-2 p-4 text-xl font-bold rounded-xl drop-shadow-lg transition-all bg-blue-500 text-white border-blue-500 hover:bg-blue-700 hover:border-blue-700 active:bg-blue-800 active:text-gray-200 cursor-pointer'
+						data-tooltip-id='select-counterpoint-label'
+					>
+						{'SELECT COUNTERPOINT'}
+						<input
+							className='hidden'
+							type='file'
+							name='midi-file'
+							id=''
+							accept='audio/midi'
+							onChange={handleInput}
+						/>
+					</label>
+					<Tooltip
+						id='select-counterpoint-label'
+						place='top'
+						content='Select MIDI (.mid) file'
+					/>
+					{fileTitle && <span className='mt-2'>{fileTitle}</span>}
+				</div>
+				<Separator label='Parameters' />
+				<Select
+					label='Mode'
+					options={modes}
+					value={mode}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMode(e.target.value)}
+				/>
+				<Select
+					label='First track voice'
+					options={voices}
+					value={firstTrack}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						setFirstTrack(e.target.value)
+					}
+				/>
+				<Select
+					label='Second track voice'
+					options={voices}
+					value={secondTrack}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						setSecondTrack(e.target.value)
+					}
+				/>
+			</div>
+			<Button onClick={handleSubmit}>JUDGE COUNTERPOINT</Button>
+		</FadeIn>
 	)
 }
 

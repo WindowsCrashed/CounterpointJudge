@@ -4,6 +4,7 @@ import genSheetMusic from '../../../helpers/genSheetMusic'
 import FadeIn from 'react-fade-in/lib/FadeIn'
 import Score from '../../../components/score'
 import Mistakes from '../../../components/mistakes'
+import Button from '../../../components/button'
 
 type OutputProps = {
 	feedback: FeedbackData
@@ -23,20 +24,12 @@ const Output: FC<OutputProps> = ({ feedback, trackVoices, onReturnToInput }) => 
 
 	return (
 		<div className='output'>
-			<div className='fade-in-container'>
-				<FadeIn
-					delay={250}
-					transitionDuration={500}
-					className='flex flex-col items-center justify-center'
-				>
-					<Score score={feedback.score} />
-					<Mistakes
-						mistakeCount={feedback.mistakeCount}
-						mistakes={feedback.mistakes}
-						onReturnToInput={onReturnToInput}
-					/>
-				</FadeIn>
-			</div>
+			<FadeIn delay={250} className='flex flex-col items-center justify-center'>
+				<Score score={feedback.score} />
+				{feedback.mistakeCount > 0 && <Mistakes mistakes={feedback.mistakes} />}
+				<div id='sm-output' className='rounded-xl bg-white drop-shadow-lg pl-6 mt-8'></div>
+				<Button onClick={onReturnToInput}>JUDGE ANOTHER COUNTERPOINT</Button>
+			</FadeIn>
 		</div>
 	)
 }
