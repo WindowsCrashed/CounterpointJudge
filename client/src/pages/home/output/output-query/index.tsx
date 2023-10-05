@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import Output from '..'
 import axios from 'axios'
 import { FeedbackData, MidiData, TrackVoices } from '../../../../models/models'
-import MDSpinner from 'react-md-spinner'
+import Spinner from 'react-spinner-material'
 
 type OutputQueryProps = {
 	dataToSend: MidiData
@@ -17,9 +17,6 @@ const OutputQuery: FC<OutputQueryProps> = ({ dataToSend, trackVoices, onReturnTo
 	const postData = async () => {
 		const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
 		setFeedback(res.data)
-		// setTimeout(() => {
-		// 	setLoading(false)
-		// }, 3000)
 		setLoading(false)
 	}
 
@@ -30,7 +27,7 @@ const OutputQuery: FC<OutputQueryProps> = ({ dataToSend, trackVoices, onReturnTo
 	return (
 		<>
 			{loading ? (
-				<MDSpinner />
+				<Spinner color='#fff' radius={50} className='fixed top-96' />
 			) : (
 				feedback && (
 					<Output
