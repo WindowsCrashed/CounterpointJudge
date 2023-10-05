@@ -35,7 +35,7 @@ const Mistakes: FC<MistakesProps> = ({ mistakeCount, mistakes, onReturnToInput }
 			)}
 
 			<div id='sm-output' className='rounded-xl bg-white drop-shadow-lg pl-6 mt-8'></div>
-			<Button onClick={onReturnToInput}>Evaluate another counterpoint</Button>
+			<Button onClick={onReturnToInput}>JUDGE ANOTHER COUNTERPOINT</Button>
 		</FadeIn>
 	)
 }
