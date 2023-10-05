@@ -16,7 +16,6 @@ const OutputQuery: FC<OutputQueryProps> = ({ dataToSend, trackVoices, onReturnTo
 
 	const postData = async () => {
 		const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
-		console.log(res.data)
 		setFeedback(res.data)
 		// setTimeout(() => {
 		// 	setLoading(false)

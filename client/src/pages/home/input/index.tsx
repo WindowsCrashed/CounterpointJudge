@@ -6,6 +6,7 @@ import { Tooltip } from 'react-tooltip'
 import Select from '../../../components/select'
 import Separator from '../../../components/separator'
 import { useLocalStorage } from 'usehooks-ts'
+import FadeIn from 'react-fade-in'
 
 const modes = ['D', 'E', 'F', 'G', 'A', 'C']
 
@@ -53,7 +54,7 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 	}
 
 	return (
-		<div className='flex flex-col justify-center items-center'>
+		<FadeIn className='flex flex-col justify-center items-center' delay={300}>
 			<div className='input bg-white rounded-lg drop-shadow-lg p-6 flex flex-col justify-center items-center'>
 				<div className='flex flex-col items-center justify-center mb-3'>
 					<label
@@ -102,7 +103,7 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 				/>
 			</div>
 			<Button onClick={handleSubmit}>JUDGE COUNTERPOINT</Button>
-		</div>
+		</FadeIn>
 	)
 }
 
