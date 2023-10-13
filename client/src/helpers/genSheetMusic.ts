@@ -9,6 +9,7 @@ import {
 	StaveText
 } from 'vexflow'
 import { FeedbackData, TrackVoices } from '../models/models'
+import getColorByWeight from './getColorByWeight'
 
 type Staves = {
 	topStave: Stave[]
@@ -39,6 +40,19 @@ const setClef = (voiceType: string): string => {
 	}
 }
 
+const setMeasureColor = (feedback: FeedbackData, currentMeasure: number): string => {
+	if (feedback.affectedMeasures.includes(currentMeasure)) {
+		const mistakes = feedback.mistakes.filter(m => m.measures.includes(currentMeasure))
+		if (mistakes) {
+			const colorStyle = getColorByWeight(Math.max(...mistakes.map(m => m.weight)))
+			console.log(colorStyle.substring(5, colorStyle.lastIndexOf('-')))
+			return colorStyle.substring(5, colorStyle.lastIndexOf('-'))
+		}
+	}
+
+	return 'gray'
+}
+
 const genStaves = (
 	feedback: FeedbackData,
 	initialX: number,
@@ -54,7 +68,7 @@ const genStaves = (
 		if (i === 0) {
 			staves.topStave.push(
 				new Stave(initialX, 40, baseWidth + 50, {
-					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+					fill_style: setMeasureColor(feedback, i + 1)
 				})
 					.addClef(clefs.top)
 					.addTimeSignature('C|')
@@ -68,7 +82,7 @@ const genStaves = (
 
 			staves.bottomStave.push(
 				new Stave(initialX, 140, baseWidth + 50, {
-					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+					fill_style: setMeasureColor(feedback, i + 1)
 				})
 					.addClef(clefs.bottom)
 					.addTimeSignature('C|')
@@ -77,7 +91,7 @@ const genStaves = (
 		} else if (i === feedback.notes.length - 1) {
 			staves.topStave.push(
 				new Stave(baseX + baseWidth * i, 40, baseWidth, {
-					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+					fill_style: setMeasureColor(feedback, i + 1)
 				})
 					.setEndBarType(Barline.type.END)
 					.addModifier(
@@ -90,14 +104,14 @@ const genStaves = (
 
 			staves.bottomStave.push(
 				new Stave(baseX + baseWidth * i, 140, baseWidth, {
-					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+					fill_style: setMeasureColor(feedback, i + 1)
 				}).setEndBarType(Barline.type.END)
 			)
 			// if other measures
 		} else {
 			staves.topStave.push(
 				new Stave(baseX + baseWidth * i, 40, baseWidth, {
-					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+					fill_style: setMeasureColor(feedback, i + 1)
 				}).addModifier(
 					new StaveText(`${i + 1}`, 1, {
 						shift_y: -50,
@@ -108,7 +122,7 @@ const genStaves = (
 
 			staves.bottomStave.push(
 				new Stave(baseX + baseWidth * i, 140, baseWidth, {
-					fill_style: feedback.affectedMeasures.includes(i + 1) ? 'red' : 'gray'
+					fill_style: setMeasureColor(feedback, i + 1)
 				})
 			)
 		}
