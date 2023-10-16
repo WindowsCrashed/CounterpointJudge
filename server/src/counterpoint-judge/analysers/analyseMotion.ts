@@ -3,7 +3,7 @@ import calculateMotion from '../calculators/calculateMotion'
 import { Mistake } from '../models/models'
 
 const analyseMotion = (sequence: number[][]): Mistake[] => {
-	const mistakes = []
+	const mistakes: Mistake[] = []
 	const motionList: number[] = []
 
 	for (let i = 1; i < sequence.length; i++) {

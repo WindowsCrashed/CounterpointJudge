@@ -2,7 +2,7 @@ import calculateHarmonicInterval from '../calculators/calculateHarmonicInterval'
 import { Mistake } from '../models/models'
 import analyseBattuta from './analyseBattuta'
 
-const analyseHarmonicIntervals = (sequence: number[][]) => {
+const analyseHarmonicIntervals = (sequence: number[][]): Mistake[] => {
 	const mistakes: Mistake[] = []
 	const intervalList: number[] = []
 
@@ -62,8 +62,13 @@ const analyseHarmonicIntervals = (sequence: number[][]) => {
 					})
 				}
 			} else if ([7, 12].includes(intervalList[i])) {
-				const resultBattuta = analyseBattuta(sequence[i - 1], sequence[i], i)
-				if (resultBattuta) mistakes.push(resultBattuta)
+				if (analyseBattuta(sequence[i - 1], sequence[i]))
+					mistakes.push({
+						header: 'BATTUTA',
+						measures: [i, i + 1],
+						notes: [sequence[i - 1], sequence[i]],
+						weight: 0.5
+					})
 			}
 		}
 	}

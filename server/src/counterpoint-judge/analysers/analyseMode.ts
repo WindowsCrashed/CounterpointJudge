@@ -3,7 +3,7 @@ import getNoteLabel from '../getters/getNoteLabel'
 import { Mistake, Mode } from '../models/models'
 
 const analyseMode = (sequence: number[][], mode: string): Mistake[] => {
-	const mistakes = []
+	const mistakes: Mistake[] = []
 	const modeObj: Mode = getMode(mode)
 
 	if (modeObj.code !== -1) {
