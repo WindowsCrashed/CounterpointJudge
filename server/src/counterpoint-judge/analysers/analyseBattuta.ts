@@ -8,7 +8,7 @@ const analyseBattuta = (
 	currentPair: number[],
 	currentMeasure: number
 ): Mistake | undefined => {
-	if (calculateMotion(previousPair, currentPair).code === -1) {
+	if (calculateMotion(previousPair, currentPair) === -1) {
 		const topNotes = [previousPair[1], currentPair[1]]
 		const bottomNotes = [previousPair[0], currentPair[0]]
 

@@ -8,11 +8,6 @@ export type Enharmonic = {
 	flat: string
 }
 
-export type Motion = {
-	label: string
-	code: number
-}
-
 export type Mode = {
 	label: string
 	code: number
