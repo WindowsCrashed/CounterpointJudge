@@ -13,8 +13,8 @@ const analyseBattuta = (
 		const bottomNotes = [previousPair[0], currentPair[0]]
 
 		if (
-			calculateMelodicInterval(topNotes[0], topNotes[1]).steps >= 3 &&
-			calculateMelodicInterval(bottomNotes[0], bottomNotes[1]).steps <= 2
+			calculateMelodicInterval(topNotes[0], topNotes[1]) >= 3 &&
+			calculateMelodicInterval(bottomNotes[0], bottomNotes[1]) <= 2
 		) {
 			return {
 				header: 'BATTUTA',
@@ -23,12 +23,12 @@ const analyseBattuta = (
 				weight: 0.5
 			}
 		} else if (
-			calculateMelodicInterval(topNotes[0], topNotes[1]).steps <= 2 &&
-			calculateMelodicInterval(bottomNotes[0], bottomNotes[1]).steps <= 2
+			calculateMelodicInterval(topNotes[0], topNotes[1]) <= 2 &&
+			calculateMelodicInterval(bottomNotes[0], bottomNotes[1]) <= 2
 		) {
 			if (
-				calculateHarmonicInterval(currentPair[0], currentPair[1]).steps === 12 &&
-				[3, 4].includes(calculateHarmonicInterval(previousPair[0], previousPair[1]).steps)
+				calculateHarmonicInterval(currentPair[0], currentPair[1]) === 12 &&
+				[3, 4].includes(calculateHarmonicInterval(previousPair[0], previousPair[1]))
 			) {
 				return {
 					header: 'BATTUTA',

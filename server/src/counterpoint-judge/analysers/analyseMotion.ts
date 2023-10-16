@@ -15,7 +15,7 @@ const analyseMotion = (sequence: number[][]): Mistake[] => {
 	for (let i = 0; i < motionList.length; i++) {
 		const harmonicInterval = calculateHarmonicInterval(sequence[i + 1][0], sequence[i + 1][1])
 
-		if (motionList[i].code === 1 && [0, 7, 12].includes(harmonicInterval.steps)) {
+		if (motionList[i].code === 1 && [0, 7, 12].includes(harmonicInterval)) {
 			mistakes.push({
 				header: 'DIRECT PERFECT CONSONANCE',
 				measures: [i + 1, i + 2],

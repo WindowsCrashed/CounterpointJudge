@@ -1,17 +1,9 @@
-import { intervals } from '../data/db'
-import { Interval } from '../models/models'
+const calculateHarmonicInterval = (note1: number, note2: number): number => {
+	if (note1 <= 0 || note2 <= 0) return -1
 
-const calculateHarmonicInterval = (note1: number, note2: number): Interval => {
-	if (note1 <= 0 || note2 <= 0) return { label: 'INVALID INTERVAL', steps: -1 }
+	let interval = Math.abs(note1 - note2)
 
-	let steps = Math.abs(note1 - note2)
-
-	while (steps > 12) steps -= 12
-
-	const interval = intervals.find(i => i.steps === steps) ?? {
-		label: 'INVALID INTERVAL',
-		steps: -1
-	}
+	while (interval > 12) interval -= 12
 
 	return interval
 }
