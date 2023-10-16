@@ -7,7 +7,7 @@ import genNoteLabelSequence from './genNoteLabelSequence'
 import getAllAffectedMeasures from '../getters/getAllAffectedMeasures'
 import genMistakeData from './genMistakeData'
 
-const genScore = (sequence: number[][], mistakes: Mistake[][]): FeedbackData => {
+const genFeedback = (sequence: number[][], mistakes: Mistake[][]): FeedbackData => {
 	const allMistakes = getAllMistakes(mistakes)
 
 	const score = calculateScore(sequence, allMistakes)
@@ -31,4 +31,4 @@ const genScore = (sequence: number[][], mistakes: Mistake[][]): FeedbackData => 
 	}
 }
 
-export default genScore
+export default genFeedback

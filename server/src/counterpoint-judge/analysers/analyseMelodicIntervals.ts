@@ -18,8 +18,6 @@ const analyseMelodicIntervals = (sequence: number[][]): Mistake[] => {
 			intervalList.push(result)
 		}
 
-		// console.log(intervalList.map(i => i.label).join(' -> '))
-
 		for (let i = 0; i < intervalList.length; i++) {
 			if (intervalList[i] === 13) {
 				mistakes.push({

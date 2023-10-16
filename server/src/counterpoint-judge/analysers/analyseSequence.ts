@@ -1,5 +1,5 @@
 import { FeedbackData } from '../../shared/models'
-import genScore from '../generators/genScore'
+import genFeedback from '../generators/genFeedback'
 import { Mistake } from '../models/models'
 import analyseHarmonicIntervals from './analyseHarmonicIntervals'
 import analyseMelodicIntervals from './analyseMelodicIntervals'
@@ -14,7 +14,7 @@ const analyseSequence = (sequence: number[][], mode: string = 'D'): FeedbackData
 	mistakes.push(analyseMotion(sequence))
 	mistakes.push(analyseMode(sequence, mode))
 
-	return genScore(sequence, mistakes)
+	return genFeedback(sequence, mistakes)
 }
 
 export default analyseSequence
