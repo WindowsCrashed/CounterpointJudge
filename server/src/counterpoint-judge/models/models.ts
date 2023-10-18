@@ -10,7 +10,6 @@ export type Enharmonic = {
 
 export type Mode = {
 	label: string
-	code: number
 	triad: string[]
 }
 

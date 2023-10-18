@@ -123,10 +123,10 @@ export const motions: { label: string; code: number }[] = [
 ]
 
 export const modes: Mode[] = [
-	{ label: 'D', code: 0, triad: ['D', 'F', 'A'] },
-	{ label: 'E', code: 1, triad: ['E', 'G', 'B'] },
-	{ label: 'F', code: 2, triad: ['F', 'A', 'C'] },
-	{ label: 'G', code: 3, triad: ['G', 'B', 'D'] },
-	{ label: 'A', code: 4, triad: ['A', 'C', 'E'] },
-	{ label: 'C', code: 5, triad: ['C', 'E', 'G'] }
+	{ label: 'D', triad: ['D', 'F', 'A'] },
+	{ label: 'E', triad: ['E', 'G', 'B'] },
+	{ label: 'F', triad: ['F', 'A', 'C'] },
+	{ label: 'G', triad: ['G', 'B', 'D'] },
+	{ label: 'A', triad: ['A', 'C', 'E'] },
+	{ label: 'C', triad: ['C', 'E', 'G'] }
 ]
