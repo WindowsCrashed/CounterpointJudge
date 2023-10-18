@@ -4,7 +4,6 @@ import getAllMistakes from '../getters/getAllMistakes'
 import { Mistake } from '../models/models'
 import displayMistake from '../display/displayMistake'
 import genNoteLabelSequence from './genNoteLabelSequence'
-import getAllAffectedMeasures from '../getters/getAllAffectedMeasures'
 import genMistakeData from './genMistakeData'
 
 const genFeedback = (sequence: number[][], mistakes: Mistake[][]): FeedbackData => {
@@ -24,9 +23,7 @@ const genFeedback = (sequence: number[][], mistakes: Mistake[][]): FeedbackData 
 
 	return {
 		score: score,
-		mistakeCount: mistakeCount,
 		mistakes: genMistakeData(allMistakes),
-		affectedMeasures: getAllAffectedMeasures(allMistakes),
 		notes: genNoteLabelSequence(sequence)
 	}
 }

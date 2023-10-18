@@ -13,8 +13,6 @@ export type MistakeData = {
 
 export type FeedbackData = {
 	score: number
-	mistakeCount: number
 	mistakes: MistakeData[]
-	affectedMeasures: number[]
 	notes: string[][]
 }

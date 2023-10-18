@@ -15,11 +15,6 @@ code {
 }
 
 @font-face {
-	font-family: Comfortaa;
-	src: url(assets/Comfortaa-VariableFont_wght.ttf);
-}
-
-@font-face {
 	font-family: Figtree;
 	src: url(assets/Figtree-VariableFont_wght.ttf);
 }

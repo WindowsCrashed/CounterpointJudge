@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef } from 'react'
 import { FeedbackData, TrackVoices } from '../../../models/models'
-import genSheetMusic from '../../../helpers/genSheetMusic'
+import genSheetMusic from '../../../helpers/sheet-music/genSheetMusic'
 import FadeIn from 'react-fade-in/lib/FadeIn'
 import Score from '../../../components/score'
 import Mistakes from '../../../components/mistakes'
@@ -26,7 +26,7 @@ const Output: FC<OutputProps> = ({ feedback, trackVoices, onReturnToInput }) => 
 		<div className='output'>
 			<FadeIn delay={250} className='flex flex-col items-center justify-center'>
 				<Score score={feedback.score} />
-				{feedback.mistakeCount > 0 && <Mistakes mistakes={feedback.mistakes} />}
+				{feedback.mistakes.length > 0 && <Mistakes mistakes={feedback.mistakes} />}
 				<div id='sm-output' className='rounded-xl bg-white drop-shadow-lg pl-6 mt-8'></div>
 				<Button onClick={onReturnToInput}>JUDGE ANOTHER COUNTERPOINT</Button>
 			</FadeIn>
