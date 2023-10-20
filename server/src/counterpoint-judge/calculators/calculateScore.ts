@@ -14,7 +14,7 @@ const calculateScore = (sequence: number[][], mistakes: Mistake[]): number => {
 		score -= pointsPerNote * mistake.weight * getMistakeNoteCount(mistake)
 	}
 
-	if (score < 0) score = 0
+	if (score < 0) return 0
 
 	return score
 }
