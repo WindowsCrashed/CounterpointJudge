@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { MidiData } from '../../../models/models'
+import { InputData } from '../../../models/models'
 import { readMidi } from '../../../helpers/readMidi'
 import Button from '../../../components/button'
 import { Tooltip } from 'react-tooltip'
@@ -17,7 +17,7 @@ type InputProps = {
 }
 
 const Input: FC<InputProps> = ({ onSubmit }) => {
-	const [midiData, setMidiData] = useState<MidiData>()
+	const [inputData, setInputData] = useState<InputData>()
 	const [fileTitle, setFileTitle] = useState<string>()
 	const [mode, setMode] = useLocalStorage<string>('mode', 'D')
 	const [firstTrack, setFirstTrack] = useLocalStorage<string>('firstTrack', 'soprano')
@@ -36,7 +36,7 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 
 				if (result !== null && result !== undefined && typeof result !== 'string') {
 					const data = readMidi(result)
-					setMidiData(data)
+					setInputData(data)
 				}
 			})
 
@@ -45,8 +45,8 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 	}
 
 	const handleSubmit = () => {
-		if (midiData) {
-			const dataToSend = midiData
+		if (inputData) {
+			const dataToSend = inputData
 			dataToSend.mode = mode
 
 			onSubmit(dataToSend, { firstTrack, secondTrack })

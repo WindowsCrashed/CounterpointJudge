@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import Output from '..'
 import axios from 'axios'
-import { FeedbackData, MidiData, TrackVoices } from '../../../../models/models'
+import { FeedbackData, InputData, TrackVoices } from '../../../../models/models'
 import Spinner from 'react-spinner-material'
 
 type OutputQueryProps = {
-	dataToSend: MidiData
+	dataToSend: InputData
 	trackVoices: TrackVoices
 	onReturnToInput: Function
 }

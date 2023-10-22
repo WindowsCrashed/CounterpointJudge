@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import judgeCounterpoint from '../../shared/judgeCounterpoint'
-import { MidiData } from '../../shared/models'
+import { InputData } from '../../shared/models'
 
 export const postJudgeCounterpoint = async (req: Request, res: Response) => {
 	try {
-		const data: MidiData = req.body
+		const data: InputData = req.body
 		const feedback = judgeCounterpoint(data)
 		res.status(200).send(feedback)
 	} catch (e) {

@@ -1,17 +1,17 @@
 import { FC, useState } from 'react'
-import { MidiData, TrackVoices } from '../../models/models'
+import { InputData, TrackVoices } from '../../models/models'
 import Input from './input'
 import OutputQuery from './output/output-query'
 import Header from '../../components/header'
 
 const Home: FC = () => {
-	const [midiData, setMidiData] = useState<MidiData>()
+	const [midiData, setMidiData] = useState<InputData>()
 	const [trackVoices, setTrackVoices] = useState<TrackVoices>()
 	const [currentDisplayComponent, setCurrentDisplayComponent] = useState<'input' | 'output'>(
 		'input'
 	)
 
-	const handleSubmit = (midiData: MidiData, trackVoices: TrackVoices) => {
+	const handleSubmit = (midiData: InputData, trackVoices: TrackVoices) => {
 		setMidiData(midiData)
 		setTrackVoices(trackVoices)
 		setCurrentDisplayComponent('output')

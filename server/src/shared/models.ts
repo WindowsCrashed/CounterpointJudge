@@ -1,4 +1,4 @@
-export type MidiData = {
+export type InputData = {
 	tracks: number[][]
 	mode?: string
 }
