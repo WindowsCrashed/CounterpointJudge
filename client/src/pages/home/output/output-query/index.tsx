@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import Output from '..'
-import axios from 'axios'
+import axios, { AxiosError, isAxiosError } from 'axios'
 import { FeedbackData, InputData, TrackVoices } from '../../../../models/models'
 import Spinner from 'react-spinner-material'
+import handleAxiosError from '../../../../helpers/handleAxiosError'
 
 type OutputQueryProps = {
 	dataToSend: InputData
@@ -15,9 +16,14 @@ const OutputQuery: FC<OutputQueryProps> = ({ dataToSend, trackVoices, onReturnTo
 	const [feedback, setFeedback] = useState<FeedbackData>()
 
 	const postData = async () => {
-		const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
-		setFeedback(res.data)
-		setLoading(false)
+		try {
+			const res = await axios.post('http://localhost:3001/counterpoint-judge', dataToSend)
+			setFeedback(res.data)
+			setLoading(false)
+		} catch (e) {
+			if (isAxiosError(e)) handleAxiosError(e)
+			onReturnToInput()
+		}
 	}
 
 	useEffect(() => {

@@ -49,6 +49,11 @@ const Input: FC<InputProps> = ({ onSubmit }) => {
 			const dataToSend = inputData
 			dataToSend.mode = mode
 
+			if (dataToSend.tracks.length !== 2) {
+				alert('MIDI file must have exacly two tracks. Try again.')
+				return
+			}
+
 			onSubmit(dataToSend, { firstTrack, secondTrack })
 		}
 	}

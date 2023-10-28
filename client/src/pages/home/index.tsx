@@ -17,14 +17,10 @@ const Home: FC = () => {
 		setCurrentDisplayComponent('output')
 	}
 
-	const returnToInputScreen = () => {
-		setCurrentDisplayComponent('input')
-	}
+	const returnToInputScreen = () => setCurrentDisplayComponent('input')
 
 	const showCurrentDisplayComponent = () => {
-		if (currentDisplayComponent === 'input') {
-			return <Input onSubmit={handleSubmit} />
-		}
+		if (currentDisplayComponent === 'input') return <Input onSubmit={handleSubmit} />
 
 		if (midiData && trackVoices) {
 			return (
