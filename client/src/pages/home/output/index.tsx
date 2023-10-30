@@ -23,7 +23,7 @@ const Output: FC<OutputProps> = ({ feedback, trackVoices, onReturnToInput }) => 
 	}, [])
 
 	return (
-		<div className='output'>
+		<div className='output pb-10'>
 			<FadeIn delay={250} className='flex flex-col items-center justify-center'>
 				<Score score={feedback.score} />
 				{feedback.mistakes.length > 0 && <Mistakes mistakes={feedback.mistakes} />}

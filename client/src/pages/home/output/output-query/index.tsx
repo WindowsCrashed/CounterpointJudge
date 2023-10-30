@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import Output from '..'
-import axios, { AxiosError, isAxiosError } from 'axios'
+import axios, { isAxiosError } from 'axios'
 import { FeedbackData, InputData, TrackVoices } from '../../../../models/models'
 import Spinner from 'react-spinner-material'
 import handleAxiosError from '../../../../helpers/handleAxiosError'
