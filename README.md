@@ -44,7 +44,7 @@ The client is not responsive, and lacks lots of modern features, which can be ad
 
 # Specific Details
 
-## Mode
+## Modes
 
 -   D
 -   E
