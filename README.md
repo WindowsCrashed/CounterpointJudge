@@ -1,5 +1,7 @@
 # 🎼 ONLINE COUNTERPOINT JUDGE 🎼
 
+[Click here to skip to setup](#setup)
+
 A web app that analyses and judges your Species Counterpoint exercises, according to the rules established in Fux's _Gradus ad Parnassum_.
 
 In its current state, it's only capable of analysing First Species counterpoint in two voices, but could definitely have its capabilities expanded in future updates.
@@ -99,3 +101,9 @@ Based entirely on the rules established in the _Dialogue_ and _Chapter One_ of J
 -   DIRECT PERFECT CONSONANCE (1.5)
 -   INCORRECT MODE BEGINNING (1.5)
 -   INCORRECT MODE TERMINATION (1.5)
+
+# Setup
+
+-   Open the `server` and `client` directories on terminal.
+-   In each of them, run `npm install --force` (some of the libs are incompatible, so `--force` is required).
+-   In each of them, run `npm start` to run the server and client respectively.
