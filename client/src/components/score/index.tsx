@@ -35,7 +35,7 @@ const Score: FC<ScoreProps> = ({ score }) => {
 				<CountUp
 					start={0}
 					end={score}
-					duration={2.5}
+					duration={score > 0 ? 2.5 : 1}
 					delay={0}
 					decimals={1}
 					onEnd={fillScoreColor}

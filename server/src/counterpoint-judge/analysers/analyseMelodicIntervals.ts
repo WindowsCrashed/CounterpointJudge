@@ -18,31 +18,29 @@ const analyseMelodicIntervals = (sequence: number[][]): Mistake[] => {
 			intervalList.push(result)
 		}
 
-		// console.log(intervalList.map(i => i.label).join(' -> '))
-
 		for (let i = 0; i < intervalList.length; i++) {
-			if (intervalList[i].steps === 13) {
+			if (intervalList[i] === 13) {
 				mistakes.push({
 					header: 'INTERVAL BIGGER THAN AN OCTAVE',
 					measures: [i + 1, i + 2],
 					notes: [line[i], line[i + 1]],
 					weight: 1.5
 				})
-			} else if (intervalList[i].steps === 6) {
+			} else if (intervalList[i] === 6) {
 				mistakes.push({
 					header: 'TRITONE',
 					measures: [i + 1, i + 2],
 					notes: [line[i], line[i + 1]],
 					weight: 1.5
 				})
-			} else if (intervalList[i].steps === 9) {
+			} else if (intervalList[i] === 9) {
 				mistakes.push({
 					header: 'MAJOR SIXTH INTERVAL',
 					measures: [i + 1, i + 2],
 					notes: [line[i], line[i + 1]],
 					weight: 1
 				})
-			} else if ([10, 11].includes(intervalList[i].steps)) {
+			} else if ([10, 11].includes(intervalList[i])) {
 				mistakes.push({
 					header: 'SEVENTH INTERVAL',
 					measures: [i + 1, i + 2],

@@ -1,5 +1,4 @@
-export type MidiData = {
-	trackCount: number
+export type InputData = {
 	tracks: number[][]
 	mode?: string
 }
@@ -13,9 +12,7 @@ export type Mistake = {
 
 export type FeedbackData = {
 	score: number
-	mistakeCount: number
 	mistakes: Mistake[]
-	affectedMeasures: number[]
 	notes: string[][]
 }
 

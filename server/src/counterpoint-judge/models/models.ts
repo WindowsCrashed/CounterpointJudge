@@ -8,19 +8,8 @@ export type Enharmonic = {
 	flat: string
 }
 
-export type Interval = {
-	label: string
-	steps: number
-}
-
-export type Motion = {
-	label: string
-	code: number
-}
-
 export type Mode = {
 	label: string
-	code: number
 	triad: string[]
 }
 

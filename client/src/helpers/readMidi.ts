@@ -1,10 +1,9 @@
 import { Midi } from '@tonejs/midi'
-import { MidiData } from '../models/models'
+import { InputData } from '../models/models'
 
 export const readMidi = (file: ArrayBuffer) => {
 	const midi = new Midi(file)
-	const data: MidiData = {
-		trackCount: midi.tracks.length,
+	const data: InputData = {
 		tracks: midi.tracks.map(t => t.notes.map(n => n.midi))
 	}
 

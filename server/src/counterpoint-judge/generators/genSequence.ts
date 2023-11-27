@@ -1,10 +1,7 @@
-import { MidiData } from '../../shared/models'
+import { InputData } from '../../shared/models'
 
-// Only works for multi track midi
-const genSequence = (midiData: MidiData) => {
-	if (midiData.trackCount === 0) return []
-
-	const tracksInverted = [midiData.tracks[1], midiData.tracks[0]]
+const genSequence = (inputData: InputData) => {
+	const tracksInverted = [inputData.tracks[1], inputData.tracks[0]]
 
 	const greatestTrackLength = Math.max(...tracksInverted.map(t => t.length))
 

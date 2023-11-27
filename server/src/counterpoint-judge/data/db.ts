@@ -1,4 +1,4 @@
-import { Enharmonic, Interval, Mode, Motion, Note } from '../models/models'
+import { Enharmonic, Mode, Note } from '../models/models'
 
 export const notes: Note[] = [
 	{ label: 'A0', pitch: 21 },
@@ -99,7 +99,7 @@ export const enharmonics: Enharmonic[] = [
 	{ sharp: 'A#', flat: 'Bb' }
 ]
 
-export const intervals: Interval[] = [
+export const intervals: { label: string; steps: number }[] = [
 	{ label: 'Unison', steps: 0 },
 	{ label: 'Minor Second', steps: 1 },
 	{ label: 'Major Second', steps: 2 },
@@ -115,7 +115,7 @@ export const intervals: Interval[] = [
 	{ label: 'Octave', steps: 12 }
 ]
 
-export const motions: Motion[] = [
+export const motions: { label: string; code: number }[] = [
 	{ label: 'Direct', code: 1 },
 	{ label: 'Oblique', code: 0 },
 	{ label: 'Contrary', code: -1 },
@@ -123,10 +123,10 @@ export const motions: Motion[] = [
 ]
 
 export const modes: Mode[] = [
-	{ label: 'D', code: 0, triad: ['D', 'F', 'A'] },
-	{ label: 'E', code: 1, triad: ['E', 'G', 'B'] },
-	{ label: 'F', code: 2, triad: ['F', 'A', 'C'] },
-	{ label: 'G', code: 3, triad: ['G', 'B', 'D'] },
-	{ label: 'A', code: 4, triad: ['A', 'C', 'E'] },
-	{ label: 'C', code: 5, triad: ['C', 'E', 'G'] }
+	{ label: 'D', triad: ['D', 'F', 'A'] },
+	{ label: 'E', triad: ['E', 'G', 'B'] },
+	{ label: 'F', triad: ['F', 'A', 'C'] },
+	{ label: 'G', triad: ['G', 'B', 'D'] },
+	{ label: 'A', triad: ['A', 'C', 'E'] },
+	{ label: 'C', triad: ['C', 'E', 'G'] }
 ]

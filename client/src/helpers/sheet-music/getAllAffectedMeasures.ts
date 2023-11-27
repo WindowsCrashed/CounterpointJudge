@@ -1,4 +1,4 @@
-import { Mistake } from '../models/models'
+import { Mistake } from '../../models/models'
 
 const getAllAffectedMeasures = (mistakes: Mistake[]): number[] => {
 	const allMeasures: number[] = []
